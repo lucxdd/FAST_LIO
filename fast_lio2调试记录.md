@@ -32,7 +32,7 @@
 
 参考https://blog.csdn.net/m0_38144614/article/details/124862734?spm=1001.2014.3001.5506
 
-sudo ptpd -M -i enp92s0 -C	//enp92s0是lwh的y9000k上的livox网卡，ip是192.168.1.50
+sudo ptpd -M -i enp49s0 -C	//enp49s0是zh的y9000p上的livox网卡，ip是192.168.1.50
 <!-- 可以启动livox_iewer查看有没有时间同步（在官网可以下载） -->
 
 ### 2.2 启动激光雷达驱动

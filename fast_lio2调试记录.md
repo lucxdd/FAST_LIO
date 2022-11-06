@@ -4,13 +4,13 @@
 
 ### handsfree_ros_imu功能包代码地址： https://gitee.com/HANDS-FREE/handsfree_ros_imu.git
 
-mkdir -p ~/handsfree_ros_ws/src/
-cd ~/handsfree_ros_ws/src/
-git clone https://gitee.com/HANDS-FREE/handsfree_ros_imu.git
-cd ~/handsfree_ros_ws/
-catkin_make
-cd ~/handsfree_ros_ws/src/handsfree_ros_imu/scripts/
-sudo chmod 777 *.py
+`mkdir -p ~/handsfree_ros_ws/src/`
+`cd ~/handsfree_ros_ws/src/`
+`git clone https://gitee.com/HANDS-FREE/handsfree_ros_imu.git`
+`cd ~/handsfree_ros_ws/`
+`catkin_make`
+`cd ~/handsfree_ros_ws/src/handsfree_ros_imu/scripts/`
+`sudo chmod 777 *.py`
 
 ## 二、编译livor_ros_driver
 
@@ -38,7 +38,7 @@ sudo chmod 777 *.py
 
 ### 4.1.3 启动imu
 
-`roslaunch handsfree_ros_imu rviz_and_imu.launch imu_type:=a9`	//rviz版本，**仅用于检查**。移动imu，在rviz里是否会动
+`roslaunch handsfree_ros_imu rviz_and_imu.launch imu_type:=a9`	//rviz版本，**仅用于检查**。移动imu，在rviz里会动
 `roslaunch handsfree_ros_imu handsfree_imu.launch  imu_type:=a9`	//没有rviz版本，用于SLAM
 
 <!--陀螺仪和加速计的发布话题：/handsfree/imu -->

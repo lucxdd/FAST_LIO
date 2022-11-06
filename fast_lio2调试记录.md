@@ -4,14 +4,15 @@
 
 ### handsfree_ros_imu功能包代码地址： https://gitee.com/HANDS-FREE/handsfree_ros_imu.git
 
-`mkdir -p ~/handsfree_ros_ws/src/`
-`cd ~/handsfree_ros_ws/src/`
-`git clone https://gitee.com/HANDS-FREE/handsfree_ros_imu.git`
-`cd ~/handsfree_ros_ws/`
-`catkin_make`
-`cd ~/handsfree_ros_ws/src/handsfree_ros_imu/scripts/`
-`sudo chmod 777 *.py`
-
+```c++
+mkdir -p ~/handsfree_ros_ws/src/
+cd ~/handsfree_ros_ws/src/
+git clone https://gitee.com/HANDS-FREE/handsfree_ros_imu.git
+cd ~/handsfree_ros_ws/
+catkin_make
+cd ~/handsfree_ros_ws/src/handsfree_ros_imu/scripts/
+sudo chmod 777 *.py
+```
 ## 二、编译livor_ros_driver
 
 代码地址：https://github.com/Livox-SDK/livox_ros_driver
@@ -38,8 +39,10 @@
 
 ### 4.1.3 启动imu
 
-`roslaunch handsfree_ros_imu rviz_and_imu.launch imu_type:=a9`	//rviz版本，**仅用于检查**。移动imu，在rviz里会动
-`roslaunch handsfree_ros_imu handsfree_imu.launch  imu_type:=a9`	//没有rviz版本，用于SLAM
+```c++
+roslaunch handsfree_ros_imu rviz_and_imu.launch imu_type:=a9	//rviz版本，**仅用于检查**。移动imu，在rviz里会动
+roslaunch handsfree_ros_imu handsfree_imu.launch  imu_type:=a9	//没有rviz版本，用于SLAM
+```
 
 <!--陀螺仪和加速计的发布话题：/handsfree/imu -->
 <!-- 磁力计的发布话题：/handsfree/mag -->
@@ -55,13 +58,15 @@ sudo ptpd -M -i enp49s0 -C	//enp49s0是zh的y9000p上的livox网卡，ip是192.1
 
 ### 4.1.2 启动livox驱动
 
-样例：`roslaunch livox_ros_driver xxx.launch bd_list:="3GGDHAD0010427"`	//该livox广播码： bd_list:="3GGDHAD0010427"
-`roslaunch livox_ros_driver livox_lidar_rviz.launch bd_list:="3GGDHAD0010427"`	//PointCloud2格式点云  loam系使用的格式
+该livox mid-70广播码： bd_list:="3GGDHAD0010427"，样例：
+`roslaunch livox_ros_driver livox_lidar_rviz.launch bd_list:="3GGDHAD0010427"`	//PointCloud2格式点云loam系使用的格式
 `roslaunch livox_ros_driver livox_lidar_msg.launch bd_list:="3GGDHAD0010427"`	  //livox自定义格式。fast-lio2, faster_lio使用的格式
 
-<!--livox_lidar_rviz.launch	//向外发布pointcloud2格式的点云数据,自动加载rviz-->
-<!--livox_lidar.launch	//向外发布pointcloud2格式的点云数据,无rviz-->
-<!--livox_lidar_msg.launch	//向外发布览沃自定义点云数据-->
+```
+livox_lidar_rviz.launch	//向外发布pointcloud2格式的点云数据,自动加载rviz
+livox_lidar.launch	//向外发布pointcloud2格式的点云数据,无rviz
+livox_lidar_msg.launch	//向外发布览沃自定义点云数据
+```
 
 ## 5 录包
 
@@ -76,6 +81,6 @@ sudo ptpd -M -i enp49s0 -C	//enp49s0是zh的y9000p上的livox网卡，ip是192.1
 
 ## 6 运行激光惯导SLAM
 
-`roslaunch faster_lio mapping_avia.launch`		//高翔开发的faster_lio，有论文
+`roslaunch faster_lio mapping_avia.launch`	//高翔开发的faster_lio，有论文
 
-`roslaunch fast_lio mapping_avia.launch`			//港大开发的FAST_LIO2，有论文
+`roslaunch fast_lio mapping_avia.launch`	//港大开发的FAST_LIO2，有论文

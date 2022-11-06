@@ -44,8 +44,10 @@ roslaunch handsfree_ros_imu rviz_and_imu.launch imu_type:=a9	//rviz版本，**�
 roslaunch handsfree_ros_imu handsfree_imu.launch  imu_type:=a9	//没有rviz版本，用于SLAM
 ```
 
-<!--陀螺仪和加速计的发布话题：/handsfree/imu -->
-<!-- 磁力计的发布话题：/handsfree/mag -->
+```
+陀螺仪和加速计的发布话题：/handsfree/imu 
+磁力计的发布话题：/handsfree/mag 
+```
 
 ## 4.2 启动livox
 
@@ -53,14 +55,20 @@ roslaunch handsfree_ros_imu handsfree_imu.launch  imu_type:=a9	//没有rviz版�
 
 参考https://blog.csdn.net/m0_38144614/article/details/124862734?spm=1001.2014.3001.5506
 
+```
 sudo ptpd -M -i enp49s0 -C	//enp49s0是zh的y9000p上的livox网卡，ip是192.168.1.50
-<!-- 可以启动livox_iewer查看有没有时间同步（在官网https://www.livoxtech.com/cn/downloads可以下载） -->
+```
+
+ 可以启动livox_iewer查看有没有时间同步（在官网https://www.livoxtech.com/cn/downloads可以下载） 
 
 ### 4.1.2 启动livox驱动
 
 该livox mid-70广播码： bd_list:="3GGDHAD0010427"，样例：
-`roslaunch livox_ros_driver livox_lidar_rviz.launch bd_list:="3GGDHAD0010427"`	//PointCloud2格式点云loam系使用的格式
-`roslaunch livox_ros_driver livox_lidar_msg.launch bd_list:="3GGDHAD0010427"`	  //livox自定义格式。fast-lio2, faster_lio使用的格式
+
+```
+roslaunch livox_ros_driver livox_lidar_rviz.launch bd_list:="3GGDHAD0010427" //PointCloud2格式点云loam系使用的格式
+roslaunch livox_ros_driver livox_lidar_msg.launch bd_list:="3GGDHAD0010427"	 //livox自定义格式。fast-lio2, faster_lio使用的格式
+```
 
 ```
 livox_lidar_rviz.launch	//向外发布pointcloud2格式的点云数据,自动加载rviz
@@ -76,11 +84,15 @@ livox_lidar_msg.launch	//向外发布览沃自定义点云数据
 
 ### 5.2 在指定路径下录制话题
 
-`rosbag rosbag record -a`	//录全部话题
-`rosbag record /livox/lidar /handsfree/imu /zed2i/zed_node/right_raw/image_raw_color`	//录指定话题
+```
+rosbag rosbag record -a	//录全部话题
+rosbag record /livox/lidar /handsfree/imu /zed2i/zed_node/right_raw/image_raw_color	//录指定话题
+```
 
 ## 6 运行激光惯导SLAM
 
-`roslaunch faster_lio mapping_avia.launch`	//高翔开发的faster_lio，有论文
+```
+roslaunch faster_lio mapping_avia.launch  //高翔开发的faster_lio，有论文
+roslaunch fast_lio mapping_avia.launch	//港大开发的FAST_LIO2，有论文
+```
 
-`roslaunch fast_lio mapping_avia.launch`	//港大开发的FAST_LIO2，有论文

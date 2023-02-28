@@ -27,17 +27,24 @@ sudo chmod 777 *.py
 
 ## 四、启动
 
-### 4.1  启动惯导
+### 4.1  启动导远组合导航（最先启动）
+```c++
+roslaunch dy_rec dy_rec.launch
+```
 
-### 4.1.1 连接IMU的USB，检查电脑能否识别到ttyUSB0
+### 4.2  启动小惯导
+
+### 4.2.1 前面没启动导远时
 
 `ls /dev/ttyUSB0`
-
-### 4.1.2 检测到ttyUSB0后，给ttyUSB0赋权限
-
 `sudo chmod 777 /dev/ttyUSB0`
 
-### 4.1.3 启动imu
+### 4.2.2 前面启动导远时
+
+`ls /dev/ttyUSB1`
+`sudo chmod 777 /dev/ttyUSB1`
+
+### 4.2.3 启动imu驱动
 
 ```c++
 roslaunch handsfree_ros_imu rviz_and_imu.launch imu_type:=a9	//rviz版本，**仅用于检查**。移动imu，在rviz里会动
@@ -56,6 +63,7 @@ roslaunch handsfree_ros_imu handsfree_imu.launch  imu_type:=a9	//没有rviz版�
 参考https://blog.csdn.net/m0_38144614/article/details/124862734?spm=1001.2014.3001.5506
 
 ```
+sudo ptpd -M -i enp92s0 -C	//enp92s0是lwh的y9000k上的livox网卡，ip是192.168.1.50
 sudo ptpd -M -i enp49s0 -C	//enp49s0是zh的y9000p上的livox网卡，ip是192.168.1.50
 ```
 
@@ -83,6 +91,7 @@ livox_lidar_msg.launch	//向外发布览沃自定义点云数据
 `roslaunch zed_wrapper zed2i.launch`		//显示success
 
 ### 5.2 在指定路径下录制话题
+推荐用rqt_bag录包
 
 ```
 rosbag rosbag record -a	//录全部话题

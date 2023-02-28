@@ -1,5 +1,6 @@
 common:
     lid_topic:  "/livox/lidar"
+    # imu_topic:  "/imu_correct"
     imu_topic:  "/handsfree/imu"
     time_sync_en: false         # ONLY turn on when external time synchronization is really not possible
     time_offset_lidar_to_imu: 0.0 # Time offset between lidar and IMU calibrated by other algorithms, e.g. LI-Init (can be found in README).
@@ -7,18 +8,27 @@ common:
 
 preprocess:
     lidar_type: 1                # 1 for Livox serials LiDAR, 2 for Velodyne LiDAR, 3 for ouster LiDAR, 
-    scan_line: 6
-    blind: 4
+    scan_line: 1    # livox-mid70
+    blind: 0.2  # 盲区0.2米
 
 mapping:
     acc_cov: 0.1
     gyr_cov: 0.1
     b_acc_cov: 0.0001
     b_gyr_cov: 0.0001
-    fov_degree:    90
-    det_range:     450.0
+    # fov_degree:    90
+    # det_range:     450.0
+    fov_degree:    70
+    det_range:     200.0
+
     extrinsic_est_en:  false      # true: enable the online estimation of IMU-LiDAR extrinsic
-    extrinsic_T: [ 0.04165, 0.02326, -0.0284 ]
+    # extrinsic_T: [ 0.04165, 0.02326, -0.0284 ]
+    # extrinsic_R: [ 1, 0, 0,
+    #                0, 1, 0,
+    #                0, 0, 1]
+
+    # 外参激光到惯导  坐标原点在惯导
+    extrinsic_T: [ 0.016, 0.000, -0.0384 ]  
     extrinsic_R: [ 1, 0, 0,
                    0, 1, 0,
                    0, 0, 1]

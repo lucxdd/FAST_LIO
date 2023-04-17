@@ -1,25 +1,28 @@
 common:
     lid_topic:  "/livox/lidar"
     # imu_topic:  "/imu_correct"
-    imu_topic:  "/handsfree/imu"
+    # imu_topic:  "/handsfree/imu"    #mid-70
+    imu_topic:  "/livox/imu"      #mid360
+
     time_sync_en: false         # ONLY turn on when external time synchronization is really not possible
     time_offset_lidar_to_imu: 0.0 # Time offset between lidar and IMU calibrated by other algorithms, e.g. LI-Init (can be found in README).
                                   # This param will take effect no matter what time_sync_en is. So if the time offset is not known exactly, please set as 0.0
 
 preprocess:
     lidar_type: 1                # 1 for Livox serials LiDAR, 2 for Velodyne LiDAR, 3 for ouster LiDAR, 
-    scan_line: 1    # livox-mid70
-    blind: 0.2  # 盲区0.2米
+    # scan_line: 1    # mid70
+    scan_line: 4    # mid360
+    blind: 4  # m^2 盲区2米
 
 mapping:
     acc_cov: 0.1
     gyr_cov: 0.1
     b_acc_cov: 0.0001
     b_gyr_cov: 0.0001
-    # fov_degree:    90
-    # det_range:     450.0
-    fov_degree:    70
-    det_range:     200.0
+    # fov_degree:    70   # mid70
+    # det_range:     200.0
+    fov_degree:    360    # mid360
+    det_range:     70.0
 
     extrinsic_est_en:  false      # true: enable the online estimation of IMU-LiDAR extrinsic
     # extrinsic_T: [ 0.04165, 0.02326, -0.0284 ]
@@ -27,8 +30,8 @@ mapping:
     #                0, 1, 0,
     #                0, 0, 1]
 
-    # 外参激光到惯导  坐标原点在惯导
-    extrinsic_T: [ 0.016, 0.000, -0.0384 ]  
+    # 外参惯导到激光  坐标原点在惯导(官方github：The extrinsic parameters in FAST-LIO is defined as the LiDAR's pose (position and rotation matrix) in IMU body frame (i.e. the IMU is the base frame). They can be found in the official manual.)
+    extrinsic_T: [-0.011, -0.02329, 0.04412]
     extrinsic_R: [ 1, 0, 0,
                    0, 1, 0,
                    0, 0, 1]

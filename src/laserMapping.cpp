@@ -827,10 +827,12 @@ int main(int argc, char **argv) {
   string pos_log_dir = root_dir + "/Log/pos_log.txt";
   fp = fopen(pos_log_dir.c_str(), "w");
 
-  ofstream fout_pre, fout_out, fout_dbg;
+  ofstream fout_pre, fout_out, fout_dbg, fout_traj;
   fout_pre.open(DEBUG_FILE_DIR("mat_pre.txt"), ios::out);
   fout_out.open(DEBUG_FILE_DIR("mat_out.txt"), ios::out);
   fout_dbg.open(DEBUG_FILE_DIR("dbg.txt"), ios::out);
+  fout_traj.open(root_dir + "/PCD/traj_fastlio2.txt", ios::out);
+
   if (fout_pre && fout_out)
     cout << "~~~~" << ROOT_DIR << " file opened" << endl;
   else
@@ -981,6 +983,15 @@ int main(int argc, char **argv) {
       // publish_effect_world(pubLaserCloudEffect);
       // publish_map(pubLaserCloudMap);
 
+      if (pcd_save_en) {
+        fout_traj << ros::Time().fromSec(lidar_end_time) << " "
+                  << state_point.pos(0) <<" "
+                  << state_point.pos(1) << " "
+                  << state_point.pos(2) << " "
+                  << geoQuat.x << " " << geoQuat.y << " " << geoQuat.z << " " << geoQuat.w
+                  << endl;
+      }
+
       /*** Debug variables ***/
       if (runtime_pos_log) {
         frame_num++;
@@ -1025,6 +1036,7 @@ int main(int argc, char **argv) {
                  << state_point.bg.transpose() << " "
                  << state_point.ba.transpose() << " " << state_point.grav << " "
                  << feats_undistort->points.size() << endl;
+        //  TODO:将state_point的位姿写入文件，输出为tum格式
         dump_lio_state_to_log(fp);
       }
     }
@@ -1046,6 +1058,7 @@ int main(int argc, char **argv) {
 
   fout_out.close();
   fout_pre.close();
+  fout_traj.close();
 
   if (runtime_pos_log) {
     vector<double> t, s_vec, s_vec2, s_vec3, s_vec4, s_vec5, s_vec6, s_vec7;
@@ -1068,6 +1081,27 @@ int main(int argc, char **argv) {
       s_vec5.push_back(s_plot[i]);
     }
     fclose(fp2);
+  }
+
+// TODO1:保存slam轨迹tum格式 √
+// TODO3:保存文件地址从yaml读取
+// TODO4:预测的slam轨迹保存成tum格式
+  if(path_en) {
+    std::ofstream traj_ofs;
+    traj_ofs.open(string(root_dir + "Log/slam_traj_tum.txt"), std::ios::out);
+    if (!traj_ofs.is_open()) {
+        cout << "Failed to open slam_traj_tum_file: " << string(root_dir + "Log/slam_traj_tum.txt");
+        return 0;
+    }
+
+    traj_ofs << "#timestamp x y z q_x q_y q_z q_w" << std::endl;
+    for (const auto &p : path.poses) {
+        traj_ofs << std::fixed << std::setprecision(6) << p.header.stamp.toSec() << " " << std::setprecision(15)
+            << p.pose.position.x << " " << p.pose.position.y << " " << p.pose.position.z << " " << p.pose.orientation.x
+            << " " << p.pose.orientation.y << " " << p.pose.orientation.z << " " << p.pose.orientation.w << std::endl;
+    }
+    traj_ofs.close();
+    cout << "success to write slam_traj_tum_file in : " << string(root_dir + "Log/slam_traj_tum.txt");
   }
 
   return 0;
